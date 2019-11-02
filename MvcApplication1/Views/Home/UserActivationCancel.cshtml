@@ -1,0 +1,68 @@
+﻿@using MvcApplication1.Entities.Messages
+@model List<ErrorMessageObj>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head> 
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="~/Content/css/bootstrap.css" rel="stylesheet" />
+        <link href="~/Content/css/login-register.css" rel="stylesheet" />
+		<!-- Website CSS style -->
+		<link rel="stylesheet" type="text/css" href="assets/css/main.css">
+
+		<!-- Website Font style -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+		
+		<!-- Fonts -->
+		<link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+
+		<title>Luxury Watches</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row main">
+				<div class="panel-heading">
+	               <div class="panel-title text-center">
+	               		<h1 class="title">LuxWatches</h1>
+	               		<hr />
+	               	</div>
+	            </div> 
+                              
+				<div class="main-login main-center">
+                        
+						<div class="form-group">
+							<label for="username" class="cols-sm-2 control-label">Processing...</label>
+                            <label for="username" class="cols-sm-2 control-label">The account is not invalid.</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<p>
+                                      @foreach (ErrorMessageObj error in Model)
+                                      {
+                                          @error.Message <br />
+                                      }
+
+									</p>
+                                   
+								</div>
+							</div>
+						</div>		
+				</div>
+                
+			</div>
+		</div>
+	</body>
+</html>
+
+<script>
+
+    $(function () {
+        setTimeout(function () {
+            window.location = "/Home/Index";
+        }, 3000);
+    });
+</script>

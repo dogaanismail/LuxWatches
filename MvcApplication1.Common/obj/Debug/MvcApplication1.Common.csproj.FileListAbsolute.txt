@@ -1,0 +1,10 @@
+C:\Users\ismail\Desktop\Proje\MvcApplication1\MvcApplication1.Common\bin\Debug\MvcApplication1.Common.dll
+C:\Users\ismail\Desktop\Proje\MvcApplication1\MvcApplication1.Common\bin\Debug\MvcApplication1.Common.pdb
+C:\Users\ismail\Desktop\Proje\MvcApplication1\MvcApplication1.Common\obj\Debug\MvcApplication1.Common.dll
+C:\Users\ismail\Desktop\Proje\MvcApplication1\MvcApplication1.Common\obj\Debug\MvcApplication1.Common.pdb
+C:\Users\dogan\Desktop\Proje(YENİ)\MvcApplication1\MvcApplication1.Common\bin\Debug\MvcApplication1.Common.dll
+C:\Users\dogan\Desktop\Proje(YENİ)\MvcApplication1\MvcApplication1.Common\bin\Debug\MvcApplication1.Common.pdb
+C:\Users\dogan\Desktop\Proje(YENİ)\MvcApplication1\MvcApplication1.Common\obj\Debug\MvcApplication1.Common.csproj.CoreCompileInputs.cache
+C:\Users\dogan\Desktop\Proje(YENİ)\MvcApplication1\MvcApplication1.Common\obj\Debug\MvcApplication1.Common.dll
+C:\Users\dogan\Desktop\Proje(YENİ)\MvcApplication1\MvcApplication1.Common\obj\Debug\MvcApplication1.Common.pdb
+C:\Users\dogan\Desktop\Proje(YENİ)\MvcApplication1\MvcApplication1.Common\obj\Debug\MvcApplication1.Common.csprojAssemblyReference.cache

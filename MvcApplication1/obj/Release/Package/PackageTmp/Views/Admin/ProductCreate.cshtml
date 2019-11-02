@@ -1,0 +1,129 @@
+﻿@model MvcApplication1.Models.Product
+
+@{
+    ViewBag.Title = "ProductCreate";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+<h2>Create</h2>
+
+ @using (Html.BeginForm("ProductCreate", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+ {
+   
+     <table style="border-bottom:1px">
+         <tr>
+             <td>
+                 Product Name 
+             </td>
+             <td>
+                  @Html.TextArea("productName")
+             </td>
+         </tr>
+        
+       <tr>
+            <td></td>
+        </tr>
+
+         <tr>
+            <td></td>
+        </tr>
+
+         <tr>
+             <td>
+                 Product Price 
+             </td>
+             <td>
+                  @Html.TextArea("productPrice")
+             </td>
+         </tr>
+        <tr>
+            <td></td>
+        </tr>
+         <tr>
+            <td></td>
+        </tr>
+         <tr>
+             <td>
+                 Product Describe
+             </td>
+             <td>
+                 @Html.TextArea("productDescribe")
+             </td>
+         </tr>
+      <tr>
+            <td></td>
+        </tr>
+         <tr>
+            <td></td>
+        </tr>
+         <tr>
+             <td>
+                 Product Photo 
+             </td>
+             <td>
+                  <input type="file" name="UploadFile" />
+             </td>
+         </tr>
+        <tr>
+            <td></td>
+        </tr>
+         <tr>
+            <td></td>
+        </tr>
+         <tr>
+             <td>
+                 Product Discount 
+             </td>
+             <td>
+                  @Html.TextBox("productDiscount")
+             </td>
+         </tr>
+         
+         <tr>
+            <td></td>
+        </tr>
+         <tr>
+            <td></td>
+        </tr>
+         <tr>
+             <td>
+                Which Category ?
+             </td>
+             <td>
+                   @Html.DropDownList("Category", (SelectList)ViewData["category"] )
+             </td>
+         </tr>
+       <tr>
+            <td></td>
+        </tr>
+         <tr>
+            <td></td>
+        </tr>
+         <tr>
+             <td>
+                 Which Brand 
+             </td>
+             <td>
+                 @Html.DropDownList("Brand", (SelectList)ViewData["brand"])
+             </td>
+         </tr>
+        
+         <tr>
+            <td></td>
+        </tr>
+         <tr>
+            <td></td>
+        </tr>
+         <tr>
+             <td>
+                 <input type="submit" value="Create" />
+             </td>
+         </tr>
+                  
+     </table>
+     
+ }
+
+<div>
+    @Html.ActionLink("Back to List", "Admin","Admin")
+</div>

@@ -1,0 +1,66 @@
+﻿@{
+    Layout = null;
+}
+
+
+<!------ Include the above in your HEAD tag ---------->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head> 
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="~/Content/css/bootstrap.css" rel="stylesheet" />
+        <link href="~/Content/css/login-register.css" rel="stylesheet" />
+		<!-- Website CSS style -->
+		<link rel="stylesheet" type="text/css" href="assets/css/main.css">
+
+		<!-- Website Font style -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+		
+		<!-- Fonts -->
+		<link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+
+		<title>Admin</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row main">
+				<div class="panel-heading">
+	               <div class="panel-title text-center">
+	               		<h1 class="title">LuxWatches</h1>
+	               		<hr />
+	               	</div>
+	            </div> 
+                              
+				<div class="main-login main-center">
+                        
+						<div class="form-group">
+                            <span class="glyphicon glyphicon-ok-sign"></span>
+							<label for="username" class="cols-sm-2 control-label">Processing...</label>
+                            <label for="username" class="cols-sm-2 control-label">You have registered!</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<p>
+                                        Please activate your email. If you don't activate your email adress, you will not be able to like products, and comment products.
+									</p>
+                                   
+								</div>
+							</div>
+						</div>		
+				</div>
+                
+			</div>
+		</div>
+	</body>
+</html>
+
+<script>
+
+    $(function () {
+        setTimeout(function ()
+        {
+            window.location = "/Home/Index";
+        }, 3000);
+    });
+</script>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>GleamTech.Core</id>
+    <version>2.3.3</version>
+    <title>GleamTech Core Library</title>
+    <authors>GleamTech</authors>
+    <owners>GleamTech</owners>
+    <projectUrl>https://www.gleamtech.com/</projectUrl>
+    <iconUrl>https://www.gleamtech.com/resources/images/generic-nuget.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This package contains the core assembly which is shared by various GleamTech products. Product packages such as FileUltimate, ImageUltimate, VideoUltimate and DocumentUltimate depend on this package.</description>
+    <summary />
+    <releaseNotes>## Version 2.3.3 - March 12, 2018
+
+  - **Added:** ColorJsonConverter class.</releaseNotes>
+    <copyright>Copyright © 2015-2018 GleamTech</copyright>
+    <tags>GleamTech Core</tags>
+  </metadata>
+</package>

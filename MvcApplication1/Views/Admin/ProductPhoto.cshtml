@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "ProductPhoto";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+<h2> Creating Product Photo</h2>
+ @using (Html.BeginForm("ProductPhoto", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+ {
+    
+<table>
+
+    <tr>
+        <td>
+            Please Choose The Product Photos : 
+
+        </td>     
+    </tr>
+
+    <tr>
+        
+        <td>
+
+            <input type="file" class="multi" name="ChosenFiles" /><br />
+              </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="submit" value="Upload" />
+        </td>
+    </tr>
+
+</table>
+}

@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "ShoppingCart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using System.Data;
+<div class="breadcrumbs">
+		<div class="container">
+			<div class="breadcrumbs-main">
+				<ol class="breadcrumb">
+					<li><a href="/Home/Index">Home</a></li>
+					<li class="active">Checkout</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+	<!--end-breadcrumbs-->
+	<!--start-ckeckout-->
+	<div class="ckeckout">
+		<div class="container">
+			<div class="ckeck-top heading">
+				<h2>CHECKOUT</h2>
+			</div>
+			<div class="ckeckout-top">
+			<div class="cart-items">
+                @{
+                    if (Session["cart"]==null)
+                    {
+                       <h3>My Shopping Bag (0 item)</h3> 
+                    }
+                    else
+                    {  
+                    DataTable dt3 = new DataTable();
+                    dt3 = (DataTable)Session["cart"];
+                    object sumObject;
+                    sumObject = dt3.Compute("Sum(quantity)", "");
+                    int count;
+                    count = Convert.ToInt16(sumObject);
+                <h3>My Shopping Bag (@count.ToString())</h3>
+                      }
+                }
+			 
+			
+			<div class="in-check" >
+                
+                <table style="width:1100px; padding:15px">
+                    <tr style="border:1px solid black"> 
+                     <td style="text-align:center"> <h3>  Item </h3></td>
+                     <td style="text-align:center"> <h3> Item Price </h3> </td>
+                     <td style="text-align:center"> <h3> Discount</h3> </td>  
+                      <td style="text-align:center"> <h3> Quantity </h3></td>  
+                     <td style="text-align:center"> <h3> Total Price </h3></td>    
+                        <td></td>
+                </tr>
+                @{
+                    DataTable dt = new DataTable();
+                    dt = (DataTable)Session["cart"];
+                    if (dt==null)
+                    {
+                        
+                    }
+                    else
+                    {
+                        
+                    for (int i = 0; i< dt.Rows.Count; i++)
+                    {
+                        <tr style="border-bottom:1px solid rgb(241, 241, 241)">
+                            <td > 
+                                <a href="/Products/Detail/@dt.Rows[i]["product_id"]"><img src="/Content/images/@dt.Rows[i]["product_photo"]" style="height:130px" alt=""></a>
+						        	
+                            </td>
+                            <td style="text-align:center">
+                                <span class="cost">@dt.Rows[i]["price"] $</span>
+                            </td>
+                            <td style="text-align:center">
+                                <span class="cost">@dt.Rows[i]["product_discount"] %</span>
+                            </td>
+
+                            <td style="text-align:center" >
+                                <span class="cost">@dt.Rows[i]["quantity"]</span>
+                            </td>
+
+                            <td style="text-align:center">
+                                <span class="cost">@dt.Rows[i]["totalprice"] $</span>
+                            </td>
+
+                            <td > 
+                            <a href="@Url.Action("DeleteProduct", "Products", new {id=@dt.Rows[i]["product_id"] })"><img src="~/Content/images/close.png" /></a>
+                                </td>
+                        </tr>
+                     
+                        }
+                     }
+                }
+                    </table>
+			
+                
+                    
+			</div>
+			</div>  
+		 </div>
+		</div>
+	</div>

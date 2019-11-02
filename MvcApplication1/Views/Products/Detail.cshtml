@@ -1,0 +1,440 @@
+﻿@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using MvcApplication1.Entities
+@model List<Product>
+<script type="text/javascript">
+    $(function () {
+
+        var menu_ul = $('.menu_drop > li > ul'),
+            menu_a = $('.menu_drop > li > a');
+
+        menu_ul.hide();
+
+        menu_a.click(function (e) {
+            e.preventDefault();
+            if (!$(this).hasClass('active')) {
+                menu_a.removeClass('active');
+                menu_ul.filter(':visible').slideUp('normal');
+                $(this).addClass('active').next().stop(true, true).slideDown('normal');
+            } else {
+                $(this).removeClass('active');
+                $(this).next().stop(true, true).slideUp('normal');
+            }
+        });
+
+    });
+</script>
+<script type="text/javascript">
+
+
+    $("#number").text = 1;
+    $(document).ready(function () {
+        var sayi2 = 1;
+        $("#number").text = sayi2;
+        $("#number").val = sayi2;
+        var sayi = $("#number").val();
+        $("#arti").click(function () {
+            if (sayi == 10) {
+
+            } else {
+                sayi++;
+            }
+            $("#number").val(sayi);
+            $("#number").text(sayi);
+        });
+        $("#eksi").click(function () {
+
+            if (sayi == 1) {
+
+            } else {
+                sayi--;
+            }
+            $("#number").val(sayi);
+            $("#number").text(sayi);
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $(".rating-star-block .star").mouseleave(function () {
+            $(".rating-star-block .star").each(function () {
+                $(this).addClass("outline");
+                $(this).removeClass("filled");
+            });
+        });
+
+        $(".rating-star-block .star").mouseenter(function () {
+            var hoverVal = $(this).attr('rating');
+            $(this).prevUntil().addClass("filled");
+            $(this).addClass("filled");
+            $("#RAT").html(hoverVal);
+        });
+
+        $(".rating-star-block .star").click(function () {
+            var v = $(this).attr('rating');
+            var newScore = 0;
+            var productId = $('[name="ProductID"]').val();
+           
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SaveRating", "Products")',
+                data: { product_id: productId, rate: v },
+                success: function (data) {
+                    setNewScore(updateP, data.d);
+                },
+                error: function (data) {
+                    alert(data.d);
+                }
+            });
+        });
+    });
+    function setNewScore(container, data) {
+        $(container).html(data);
+        $("#myElem").show('1000').delay(2000).queue(function (n) {
+            $(this).hide(); n();
+        });
+    }
+</script>
+<style type="text/css">
+
+    .cizgi {
+        text-decoration: line-through;
+    }
+
+    .leftcol {
+        padding: 4px;
+        vertical-align: bottom;
+    }
+
+    .add-cart {
+        text-decoration: none;
+        color: #fff;
+        background: #000;
+        padding: 0.4em 0.8em;
+        font-size: 1.15em;
+        text-transform: uppercase;
+        margin-top: 2em;
+        display: inline-block;
+    }
+
+        .add-cart:hover {
+            background: #73b6e1;
+            transition: 0.5s all;
+            -webkit-transition: 0.5s all;
+            -o-transition: 0.5s all;
+            -moz-transition: 0.5s all;
+            -ms-transition: 0.5s all;
+        }
+
+    .item_add {
+        color: #fff;
+        border: none;
+    }
+
+    .item {
+        text-align: center;
+        width: 30px;
+    }
+
+    .rating-star-block .star.outline {
+        background: url("/Content/images/star-empty-lg.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    }
+
+    .rating-star-block .star.filled {
+        background: url("/Content/images/star-fill-lg.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    }
+
+    .rating-star-block .star {
+        color: rgba(0,0,0,0);
+        display: inline-block;
+        height: 24px;
+        overflow: hidden;
+        text-indent: -999em;
+        width: 24px;
+    }
+
+    .view {
+        text-decoration: none;
+        font-size: 1em;
+        color: #000;              
+    }
+        .view a:hover {
+            color: #73b6e1;
+            text-decoration:none;
+        }
+
+</style>
+
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="breadcrumbs-main">
+            <ol class="breadcrumb">
+                <li><a href="@Url.Action("Index","Home")">Home</a></li>
+
+                <li class="active">Detail</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="single contact">
+    <div class="container">
+        <div class="single-main">
+            @foreach (var item in ViewBag.product)
+            {
+                <div class="col-md-9 single-main-left">
+                    <div class="sngl-top">
+                        <div class="col-md-5 single-top-left">
+                            <div class="flexslider">
+                                <ul class="slides">
+
+                                    @foreach (var photo in ViewBag.photos)
+
+                                    {
+                                        <li data-thumb="/Content/images/@photo.photo_url">
+                                            <div class="thumb-image"> <img src="/Content/images/@photo.photo_url" data-imagezoom="true" class="img-responsive" alt="" /> </div>
+                                        </li>
+                                    }
+
+                                </ul>
+                            </div>
+                            <!-- FlexSlider -->
+
+                            <script src="@Url.Content("~/Content/js/imagezoom.js")"></script>
+                            <script defer src="@Url.Content("~/Content/js/jquery.flexslider.js")"></script>
+                            <link rel="stylesheet" href="@Url.Content("~/Content/css/flexslider.css")" type="text/css" media="screen" />
+
+                            <script>
+                                // Can also be used with $(document).ready()
+                                $(window).load(function () {
+                                    $('.flexslider').flexslider({
+                                        animation: "slide",
+                                        controlNav: "thumbnails"
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="col-md-7 single-top-right">
+                            <div class="single-para simpleCart_shelfItem">
+
+                                <h2>@item.product_name</h2>
+                                <div class="star-on">
+                                    <div class="star-footer">
+                                        <div class="rating-star-block" >
+
+                                            <input type="hidden"  name="ProductID" value=@item.product_id />
+                                            Current Score : <span class="CurrentScore">@item.AverageRating</span><br />
+                                            <div class="yourScore">Your Score : </div>
+
+                                            <a class="star outline" href="javascript:void(null)" rating="1" name="star"  title="vote 1"> vote 1</a>
+                                            <a class="star outline" href="javascript:void(null)" rating="2" name="star" title="vote 2"> vote 2</a>
+                                            <a class="star outline" href="javascript:void(null)" rating="3" name="star"  title="vote 3"> vote 3</a>
+                                            <a class="star outline" href="javascript:void(null)" rating="4" name="star"  title="vote 4"> vote 4</a>
+                                            <a class="star outline" href="javascript:void(null)" rating="5" name="star"  title="vote 5"> vote 5</a>
+
+                                            <div class="review">
+                                                <a class="view" href="#">  1 customer review </a>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="clearfix"> </div>
+                                </div>
+                                @{
+                                    decimal price = Convert.ToDecimal(@item.product_price);
+                                    int discount = Convert.ToInt16(@item.product_discount);
+                                    decimal product_discount = (@price * @discount) / 100;
+                                    product_discount = price - product_discount;
+                                }
+                                <table>
+                                    <tr>
+
+                                        <td style="padding:40px"><h5 class="item_price"> @product_discount.ToString()$</h5></td>
+                                        @if (item.product_discount == 0)
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            <td style="padding:5px"> <h5 class="cizgi">@item.product_price $</h5></td>
+                                        }
+                                    </tr>
+                                </table>
+
+
+                                <p>@item.product_describe</p>
+                                <div class="available">
+                                    <ul>
+                                        <li>
+                                            Color
+                                            <select>
+                                                <option>Silver</option>
+                                                <option>Black</option>
+                                                <option>Dark Black</option>
+                                                <option>Red</option>
+                                            </select>
+                                        </li>
+                                        <li class="size-in">
+                                            Size<select>
+                                                <option>Large</option>
+                                                <option>Medium</option>
+                                                <option>small</option>
+                                                <option>Large</option>
+                                                <option>small</option>
+                                            </select>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <ul class="tag-men">
+                                    <li>
+                                        <span>TAG</span>
+                                        <span class="women1">: Women,</span>
+                                    </li>
+                                    <li>
+                                        <span>SKU</span>
+                                        <span class="women1">: CK09</span>
+                                    </li>
+                                </ul><br />
+
+                                @using (Html.BeginForm("AddCart", "Products", new { id = @item.product_id }, FormMethod.Post))
+                                {
+                                    <table>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td> <h3>Quantity </h3></td>
+                                        </tr>
+                                        <tr></tr>
+                                        <tr></tr>
+                                        <tr>
+                                            <td class="leftcol"> <input type="button" value="-" id="eksi" /></td>
+                                            <td class="leftcol"> @Html.TextBox("number", "1", new { @class = "item" })  </td>
+                                            <td class="leftcol"> <input type="button" value="+" id="arti" /> </td>
+                                            <td>   <input type="submit" value="Add To Cart" class="add-cart item_add" /></td>
+
+                                        </tr>
+                                    </table>
+                                }
+                                @* <td>@Html.ActionLink("Add to Cart", "AddCart","Products", new { id = Model.product_id,},new {  @class = "add-cart item_add"  }) </td>*@
+
+                            </div>
+
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                    <div class="tabs">
+                        <ul class="menu_drop">
+                            <li class="item1">
+                                <a href="#"><img src="/Content/images/arrow.png" alt="">Description</a>
+                                <ul>
+                                    <li class="subitem1"><a href="#"></a></li>
+
+                                </ul>
+                            </li>
+                            <li class="item2">
+                                <a href="#"><img src="/Content/images/arrow.png" alt="">Additional information</a>
+                                <ul>
+                                    <li class="subitem2"><a href="#"> </a></li>
+
+                                </ul>
+                            </li>
+                            <li class="item3">
+                                <a href="#"><img src="/Content/images/arrow.png" alt="">Reviews (10)</a>
+                                <ul>
+                                    <li class="subitem1"><a href="#">The visitors who have come our website.</a></li>
+                                    <li class="subitem2"><a href="#"> </a></li>
+                                    <li class="subitem3"><a href="#"></a></li>
+
+
+                                </ul>
+                            </li>
+                            <li class="item4">
+                                <a href="#"><img src="/Content/images/arrow.png" alt="">Helpful Links</a>
+                                <ul>
+                                    <li class="subitem2"><a href="#"> </a></li>
+
+                                </ul>
+                            </li>
+                            <li class="item5">
+                                <a href="#"><img src="/Content/images/arrow.png" alt="">Make A Gift</a>
+                                <ul>
+                                    <li class="subitem1"><a href="#">After buying this product, you can make a gift package for your product by using sent a message to us.</a></li>
+
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    @{Html.RenderAction("LatestProduct", "Products"); }
+                </div>
+                <div class="col-md-3 single-right">
+                    <div class="w_sidebar">
+                        <section class="sky-form">
+                            <h4>Categories</h4>
+                            <div class="row1 scroll-pane">
+
+                                <div class="col col-4">
+                                    <label class="checkbox"><input type="checkbox" checked="checked" name="checkbox"><i></i>@item.Categories.category_name</label>
+                                </div>
+
+                            </div>
+                        </section>
+                        <section class="sky-form">
+                            <h4>Brand</h4>
+                            <div class="row1 scroll-pane">
+
+                                <div class="col col-4">
+                                    <label class="checkbox"><input type="checkbox" checked="checked" name="checkbox"><i></i>@item.Brands.brand_name</label>
+                                </div>
+
+                            </div>
+                        </section>
+                        <section class="sky-form">
+                            <h4>Color</h4>
+                            <ul class="w_nav2">
+                                <li><a class="color1" href="#"></a></li>
+                                <li><a class="color2" href="#"></a></li>
+                                <li><a class="color3" href="#"></a></li>
+                                <li><a class="color4" href="#"></a></li>
+                                <li><a class="color5" href="#"></a></li>
+                                <li><a class="color6" href="#"></a></li>
+                                <li><a class="color7" href="#"></a></li>
+                                <li><a class="color8" href="#"></a></li>
+                                <li><a class="color9" href="#"></a></li>
+                                <li><a class="color10" href="#"></a></li>
+                                <li><a class="color12" href="#"></a></li>
+                                <li><a class="color13" href="#"></a></li>
+                                <li><a class="color14" href="#"></a></li>
+                                <li><a class="color15" href="#"></a></li>
+                                <li><a class="color5" href="#"></a></li>
+                                <li><a class="color6" href="#"></a></li>
+                                <li><a class="color7" href="#"></a></li>
+                                <li><a class="color8" href="#"></a></li>
+                                <li><a class="color9" href="#"></a></li>
+                                <li><a class="color10" href="#"></a></li>
+                            </ul>
+                        </section>
+                        <section class="sky-form">
+                            <h4>discount</h4>
+                            <div class="row1 scroll-pane">
+                                <div class="col col-4">
+                                    @foreach (var discount2 in ViewBag.product)
+                                    {
+                                        <label class="radio"><input type="radio" name="radio" checked=""><i></i> @discount2.product_discount % and above</label>
+                                    }
+                                </div>
+
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="clearfix"> </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,150 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+     .cizgi {
+           text-decoration:line-through;
+             }    
+</style>
+<div class="bnr" id="home">
+		<div  id="top" class="callbacks_container">
+			<ul class="rslides" id="slider4">
+			    <li>
+					<img src="/Content/images/bnr-1.jpg" alt=""/>
+				</li>
+				<li>
+					<img src="/Content/images/bnr-2.jpg" alt=""/>
+				</li>
+				<li>
+					<img src="/Content/images/bnr-3.jpg" alt=""/>
+				</li>
+			</ul>
+		</div>
+		<div class="clearfix"> </div>
+	</div>
+				<script src="@Url.Content("~/Content/bootstrap-3.3.7-dist/js/responsiveslides.min.js")"></script>
+			 <script>
+			    // You can also use "$(window).load(function() {"
+			    $(function () {
+			      // Slideshow 4
+			      $("#slider4").responsiveSlides({
+			        auto: true,
+			        pager: true,
+			        nav: true,
+			        speed: 500,
+			        namespace: "callbacks",
+			        before: function () {
+			          $('.events').append("<li>before event fired.</li>");
+			        },
+			        after: function () {
+			          $('.events').append("<li>after event fired.</li>");
+			        }
+			      });
+			
+			    });
+			  </script>
+			<!--End-slider-script-->
+	<!--about-starts-->
+	<div class="about"> 
+		<div class="container">
+			<div class="about-top grid-1">
+				<div class="col-md-4 about-left">
+					<figure class="effect-bubba">
+						<img class="img-responsive" src="/Content/images/abt-1.jpg" alt=""/>
+						<figcaption>
+							<h2>Maxiumum quality</h2>
+							<p>You can sense the quality of products.</p>	
+						</figcaption>			
+					</figure>
+				</div>
+				<div class="col-md-4 about-left">
+					<figure class="effect-bubba">
+						<img class="img-responsive" src="/Content/images/abt-2.jpg" alt=""/>
+						<figcaption>
+							<h4>Maximum luxury</h4>
+							<p> You will be able to attract everyone's attention thanks to luxury. </p>	
+						</figcaption>			
+					</figure>
+				</div>
+				<div class="col-md-4 about-left">
+					<figure class="effect-bubba">
+						<img class="img-responsive" src="/Content/images/abt-3.jpg" alt=""/>
+						<figcaption>
+							<h4>Maximum durability</h4>
+							<p>You can use them for years thanks to durability.</p>	
+						</figcaption>			
+					</figure>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</div>
+	<!--about-end-->
+	<!--product-starts-->
+	<div class="product"> 
+		<div class="container">
+			<div class="product-top">
+                      	
+                     @foreach (var product in ViewBag.product)
+                         {
+                             
+					<div class="col-md-3 product-left">
+                        
+						<div class="product-main simpleCart_shelfItem">
+							<a href="/Products/Detail/@product.product_id" class="mask"><img class="img-responsive zoom-img" src="/Content/images/@product.product_photo" alt=""  /></a>
+							<div class="product-bottom">								
+                                 @if (@product.product_name.Length>16)
+                                        {
+                                            <h3>@product.product_name.Substring(0,15)...</h3>
+                                        }
+                                        else
+                                        {
+                                             <h3>@product.product_name</h3>   
+                                        }
+
+								<p>Find Out</p>
+                                @{
+                             decimal price = Convert.ToDecimal(@product.product_price);
+                                int discount = Convert.ToInt16(@product.product_discount);
+                               decimal product_discount = (@price * discount) / 100;
+                                product_discount = price - product_discount;
+                                }
+								
+                                @if (product.product_discount==0)
+                                {
+                                    <h4 > <a class="item_add" href="#"><i></i></a>  <span class="">@product.product_price $</span></h4> 
+                                    <h4>
+                                        <br />
+                                    </h4>
+                                                                    
+                                }
+                                else
+                                {
+                                    <h4 class="cizgi"> <span class="">@product.product_price $</span></h4>
+                                    <h4><a class="item_add" href="#"><i></i></a> <span class=" item_price">@product_discount $</span></h4>    
+                                }
+                                                                    
+							</div>
+                            @if (@product.product_discount == 0)
+                            {
+
+                            }
+                            else
+                            {
+                               <div class="srch">
+								<span>- @product.product_discount %</span>
+							</div>     
+                            }
+							
+						</div>
+                            <br />
+					</div>
+                         }
+             
+					<div class="clearfix"></div>
+                			
+			</div>
+            
+		</div>
+	</div>

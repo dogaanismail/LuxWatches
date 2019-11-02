@@ -1,0 +1,129 @@
+﻿@using MvcApplication1.Entities;
+@model Users
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .sidebar1 {
+        background: #000000;
+        /* For browsers that do not support gradients */
+        /* Standard syntax */
+        padding: 0px;
+        min-height: 100%;
+    }
+
+    .logo {
+        max-height: 130px;
+    }
+
+        .logo > img {
+            margin-top: 20px;
+            padding: 3px;
+            border: 3px solid white;
+            border-radius: 100%;
+        }
+
+    .list {
+        color: #fff;
+        list-style: none;
+        padding-left: 0px;
+    }
+
+        .list::first-line {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .list > li, h5 {
+            padding: 5px 0px 5px 40px;
+        }
+
+            .list > li:hover {
+                background-color: rgba(255, 255, 255, 0.2);
+                border-left: 5px solid white;
+                color: white;
+                font-weight: bolder;
+                padding-left: 35px;
+            }
+
+    .main-content {
+        text-align: center;
+    }
+
+    .info {
+        content: none;
+    }
+
+    .address {
+        content: none;
+    }
+</style>
+
+<script type="text/javascript">
+    var uri; //global değişken uri adında.
+    function UserInfo(name)  //fonksiyonumuz.
+    {
+        if (name == "person") {
+            uri = 'EditProfile/Home';
+        }
+        else if (name = "address") {
+            uri = 'UserAddress/Home';
+        }
+
+        $.ajax({
+            type: 'GET',  //get olması gerek.
+            url: uri, //controllera gidecek adres.
+            success: function (result) {
+                $("#info").html(result);  //controllerdan gelen içerik, bunu bir div yardımı ile göstereceğiz.
+            },
+            error: function () {
+                alert('Error.');
+            }
+        }).done(function () {
+            $("#thisButton").show();
+        });
+    };
+</script>
+
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="breadcrumbs-main">
+            <ol class="breadcrumb">
+                <li><a href="/Home/Index">Home</a></li>
+                <li class="active">Profile</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row" style="margin-left:47px">
+        <div class="col-md-2 col-sm-4 sidebar1">
+            <div class="logo">
+                <img src="~/Content/images/user-icon.png" class="img-responsive center-block" alt="Logo" />
+            </div>
+            <br>
+            <div class="left-navigation">
+                <ul class="list">
+                    <h5><strong> <span class="glyphicon glyphicon-user"> @Model.UserName</span></strong></h5>
+
+                    <li><a href="javascript:void(null)" onclick="UserInfo(this.name)" name="person">Personal Information</a></li>
+                    <li><a href="javascript:void(null)" onclick="UserInfo(this.name)" name="address">Addresses</a></li>
+                    <li><a href="javascript:void(null)" onclick="UserInfo(this.name)" name="bankaccount">Bank Account</a></li>
+                </ul>
+                <br>
+                <ul class="list">
+                    <h5><strong>ACTIVITIES</strong></h5>
+                    <li><a href="javascript:void(null)" onclick="UserInfo(this.name)" name="like">Likes</a></li>
+                    <li><a href="javascript:void(null)" onclick="UserInfo(this.name)" name="comment">Comments</a></li>
+                    <li><a href="javascript:void(null)" onclick="UserInfo(this.name)" name="myorder"> My Orders</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-10 col-sm-8 main-content">
+            <div id="info">
+            </div>
+        </div>
+    </div>
+</div>
+

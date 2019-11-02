@@ -1,0 +1,58 @@
+﻿
+@{
+    Layout = null;
+ }
+<div class="header">
+				<div class="col-md-9 header-left">
+				<div class="top-nav">
+                    <ul class="memenu skyblue">
+                        <li class="active"> @Html.ActionLink("Home", "Index", "Home") </li>
+
+                        @foreach (var cat in ViewBag.category)
+                        {
+                            <li class="grid">
+                                @Html.ActionLink((string)cat.category_name, "CategoryProducts", "Products", new { cat = cat.category_id }, null)
+                                <div class="mepanel">
+                                    <div class="row">
+                                        <div class="col1 me-one">
+                                            <h4>Brands</h4>
+                                            @foreach (var brand in cat.Brands)
+                                            {
+                                                <ul>
+                                                    @*<li><a href="/Products/CategoryProducts/@item2.brand_id">@item2.brand_name</a></li>*@
+                                                    <li>  @Html.ActionLink((string)brand.brand_name, "CategoryProducts", "Products", new { cat = cat.category_id, brand = brand.brand_id, }, null) </li>
+                                                </ul>
+                                            }
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </li>
+                        }
+
+                        <li class="grid">
+                            @Html.ActionLink("Contact", "Contact", "Home")
+                    </li>
+                        <li class="grid">
+                            @Html.ActionLink("My Account", "Login", "Home")
+                     
+                        </li>
+
+                    </ul>
+                        
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+			<div class="col-md-3 header-right"> 
+				<div class="search-bar">
+                    @using (Html.BeginForm("Search", "Home", FormMethod.Post))
+                                {
+					@*<input type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">*@
+                         @Html.TextBox("productName","Search")
+					<input type="submit"  value="">
+                    }
+				</div>
+			</div>
+			<div class="clearfix"> </div>
+			</div>

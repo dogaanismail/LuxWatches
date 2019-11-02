@@ -1,0 +1,231 @@
+﻿@using System.Data
+@using System.Web.Mvc.Html
+@using MvcApplication1.Entities;
+@{ }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>Luxury Watches</title>
+
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=1100px, maximum-scale=1, user-scalable=no">
+
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">*@
+    @*<link rel="stylesheet" href="Content/css/bootstrap.min.css" />*@
+
+    <link href="~/Content/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!--Custom-Theme-files-->
+    <!--theme-style-->
+    <link href="@Url.Content("~/Content/css/style.css")" rel="stylesheet" type="text/css" media="all" />
+    <!--start-menu-->
+    <link href="@Url.Content("~/Content/css/memenu.css")" rel="stylesheet" type="text/css" media="all" />
+
+    <script src="~/Content/js/jquery.min.js"></script>  
+    <script src="~/Content/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/memenu.js")"></script>
+    <script src="@Url.Content("~/Content/js/jquery.easydropdown.js")"></script>
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <script>$(document).ready(function () { $(".memenu").memenu(); });</script>
+    <!--dropdown-->
+</head>
+
+<body>
+    @{ 
+        Users user = null;
+        if (Session["login"]!=null)
+        {
+            user = Session["login"] as Users;
+        }
+    }
+
+    <div class="top-header">
+        <div class="container">
+            <div class="top-header-main">
+                <div class="col-md-6 top-header-left">
+                    <div class="drop">
+                        <div class="box">
+                            <select tabindex="4" class="dropdown drop">
+                                <option value="" class="label">Dollar :</option>
+                                <option value="1">Dollar</option>
+                                <option value="2">Euro</option>
+                                <option value="2">TL</option>
+                            </select>
+                        </div>
+                        <div class="box1">
+                            <select tabindex="4" class="dropdown">
+                                <option value="" class="label">English :</option>
+                                <option value="1">English</option>
+                                <option value="2">Turkish</option>
+                            </select>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-6 top-header-left">
+
+                    <div class="cart box_1">
+                        @{
+
+                            if (Session["cart"] == null)
+                            {
+                                <a href="/Home/ShoppingCart">
+                                    <div class="total">
+                                        <span class="simpleCart_total">0.00 $</span>
+                                    </div>
+                                    <img src="/Content/images/cart-1.png" alt="" />
+                                </a>
+                                <p><a href="/Home/ShoppingCart" class="simpleCart_empty">Empty Cart</a></p>
+                            }
+                            else
+                            {
+                                DataTable dt = new DataTable();
+                                dt = (DataTable)Session["cart"];
+
+                                decimal sumTotalprice;
+                                sumTotalprice = Convert.ToDecimal(dt.Compute("Sum(totalprice)", ""));
+
+
+                                object sumObject;
+                                sumObject = dt.Compute("Sum(quantity)", "");
+                                int count;
+                                count = Convert.ToInt16(sumObject);
+
+                                <a href="/Home/ShoppingCart">
+                                    <div class="total">
+                                        <span class="simpleCart_total">@sumTotalprice $</span>
+
+                                    </div>
+                                    <img src="/Content/images/cart-1.png" alt="" />
+                                </a>
+                                <p><a href="/Home/ShoppingCart" class="simpleCart_empty"> @count item</a></p>
+
+                            }
+                        }
+
+
+                        <div class="clearfix"> </div>
+                    </div>
+                    <ul class="nav navbar-nav navbar-right ">
+                        @if (user == null)
+                        {
+                            <li style="margin-right:20px">
+                                <a href="/Home/Login">
+                                    <span class="glyphicon glyphicon-log-in"></span> Sign in
+                                </a>
+                            </li>
+                            <li style="margin-right:20px">
+                                <a href="/Home/Register">
+                                    <span class="glyphicon glyphicon-user"></span> Register
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+
+                            <li style="margin-right:20px">
+                                <a href="/Home/Profile">
+                                    <span class="glyphicon glyphicon-user"></span> @user.UserName
+                                </a>
+                            </li>
+
+                            <li style="margin-right:20px">
+                                <a href="/Home/LogOut">
+                                    <span class="glyphicon glyphicon-log-out"></span> LogOut
+                                </a>
+                            </li>
+                        }
+
+                    </ul>
+
+                </div>
+
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <!--top-header-->
+    <!--start-logo-->
+    <div class="logo">
+        <a href="@Url.Action("Index", "Home")"><h1>Luxury Watches</h1></a>
+    </div>
+    <!--start-logo-->
+    <!--bottom-header-->
+    <div class="header-bottom">
+        <div class="container">
+            @{Html.RenderAction("Category", "Home"); }
+
+        </div>
+    </div>
+    @RenderBody()
+    <div class="information">
+        <div class="container">
+            <div class="infor-top">
+                <div class="col-md-3 infor-left">
+                    <h3>Follow Us</h3>
+                    <ul>
+                        <li><a href="https://www.facebook.com/ismail.dogan.1422"><span class="fb"></span><h6>Facebook</h6></a></li>
+                        <li><a href="https://twitter.com/dogaanismail"><span class="twit"></span><h6>Twitter</h6></a></li>
+                        <li><a href="https://plus.google.com/u/0/+%C4%B0smailDo%C4%9Fan"><span class="google"></span><h6>Google+</h6></a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 infor-left">
+                    <h3>Information</h3>
+                    <ul>
+                        <li><a href="#"><p>Specials</p></a></li>
+                        <li><a href="#"><p>New Products</p></a></li>
+                        <li><a href="#"><p>Our Stores</p></a></li>
+                        <li><a href="Content/contact.html"><p>Contact Us</p></a></li>
+                        <li><a href="#"><p>Top Sellers</p></a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 infor-left">
+                    <h3>My Account</h3>
+                    <ul>
+                        <li><a href="Content/account.html"><p>My Account</p></a></li>
+                        <li><a href="#"><p>My Credit slips</p></a></li>
+                        <li><a href="#"><p>My Merchandise returns</p></a></li>
+                        <li><a href="#"><p>My Personal info</p></a></li>
+                        <li><a href="#"><p>My Addresses</p></a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 infor-left">
+                    <h3>Store Information</h3>
+                    <h4>
+                        LUXURY WATCHES
+                        <span>Tuzla/ISTANBUL</span>
+                    </h4>
+                    <h5>+90531 812 42 37</h5>
+                    <p><a href="mailto:ismaildogaan@gmail.com">ismaildogaan@gmail.com</a></p>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <!--information-end-->
+    <!--footer-starts-->
+    <div class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="col-md-6 footer-left">
+                    <form>
+                        <input type="text" value="Enter Your Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Your Email';}">
+                        <input type="submit" value="Subscribe">
+                    </form>
+                </div>
+                <div class="col-md-6 footer-right">
+                    <p>© 2017 Luxury Watches. Based on unreal products. </p>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <!--footer-end-->
+</body>
+</html>

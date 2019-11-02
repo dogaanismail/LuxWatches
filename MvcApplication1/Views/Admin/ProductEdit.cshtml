@@ -1,0 +1,174 @@
+﻿@model IEnumerable<MvcApplication1.Models.Product>
+@{
+    ViewBag.Title = "ProductEdit";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+<h2>ProductEdit</h2>
+<br />
+@using (Html.BeginForm("ProductEdit", "Admin", FormMethod.Get, new { enctype = "multipart/form-data" }))
+ {
+<table style="border-bottom:1px">
+
+@foreach (var item in Model) {
+    
+    <tr>
+        <td>
+            Product ID:
+        </td>
+
+        <td>
+            @Html.TextBoxFor(modelItem => item.product_id ,new {id= "ProductID",Name="ProductID" } )
+        </td>
+
+        </tr>
+    
+    <tr>
+            <td></td>
+        </tr>
+     <tr>
+            <td></td>
+        </tr>
+    
+    
+    <tr>
+        <td>
+            Product Name:
+        </td>
+
+        <td>
+            @Html.TextBoxFor(modelItem => item.product_name ,new {id= "ProductName",Name="ProductName" } )
+        </td>
+
+        </tr>
+    
+    <tr>
+            <td></td>
+        </tr>
+     <tr>
+            <td></td>
+        </tr>
+
+    <tr>
+
+    <td>
+        Product Price :
+    </td>
+        <td>
+            @Html.TextBoxFor(modelItem => item.product_price, new {id="ProductPrice",Name="ProductPrice" }) 
+        </td>
+    </tr>
+    
+    
+    <tr>
+            <td></td>
+        </tr>
+     <tr>
+            <td></td>
+        </tr>
+    <tr>
+      <td>
+          Product Describe:
+      </td>  
+        <td>
+           @Html.TextAreaFor(modelItem => item.product_describe,new {id= "ProductDescribe",Name="ProductDescribe" })
+        </td>
+     </tr>
+    
+    
+    <tr>
+            <td></td>
+        </tr>
+     <tr>
+            <td></td>
+        </tr>
+    <tr>
+
+    <td>
+        Product Photo:
+    </td>
+        <td>
+            <input type="file" name="UploadFile" />
+            
+        </td> 
+
+        <td>
+
+        </td>
+
+        <td>
+        @Html.TextBoxFor(modelItem => item.product_photo,new {id= "ProductPhoto",Name="ProductPhoto" })
+        </td>
+              
+        </tr>  
+    
+    <tr>
+            <td></td>
+        </tr>
+     <tr>
+            <td></td>
+        </tr>
+    
+    <tr>
+        <td>
+            Product Discount:
+        </td>
+        
+        <td>
+           @Html.TextBoxFor(modelItem => item.product_discount,new {id= "ProductDiscount",Name="ProductDiscount" })
+        </td>
+        </tr>
+    
+    
+    <tr>
+            <td></td>
+        </tr>
+     <tr>
+            <td></td>
+        </tr>
+    
+    <tr>
+        <td>
+            Product Category:
+        </td>
+    
+        <td>
+            @Html.DropDownList("Category", (SelectList)ViewData["category"] )
+        </td>
+        </tr>
+    
+    <tr>
+            <td></td>
+        </tr>
+     <tr>
+            <td></td>
+        </tr>
+    
+    <tr>
+
+    <td>
+        Product Brand:
+    </td>
+        <td>
+           @Html.DropDownList("Brand", (SelectList)ViewData["brand"])
+        </td>
+        </tr>
+    
+    
+    <tr>
+            <td></td>
+        </tr>
+     <tr>
+            <td></td>
+        </tr>
+    
+    <tr>
+        <td>
+           <input type="submit" value="Update" />
+        </td>
+    </tr>
+   
+}
+
+</table>
+}

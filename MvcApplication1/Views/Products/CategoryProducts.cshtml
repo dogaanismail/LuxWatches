@@ -1,0 +1,327 @@
+﻿@using MvcApplication1.Entities
+@model List<Product>
+@{
+    ViewBag.Title = "CategoryProducts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<style>
+    .labelalign {
+        text-align: center;
+    }
+    .cizgi {
+        text-decoration: line-through;
+    }
+    .preload {
+        display: none;
+    }
+.preload { 
+    width:100px;
+    height: 100px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+} 
+</style>
+<script type="text/javascript">
+
+    var minPrice;
+    var maxPrice;
+    function getProduct() {
+            var id;
+            var brands = [];
+            id = $('[name="rbn"]:radio:checked').val();
+            $('.theSecond:checkbox:checked').each(function () {
+                brands.push($(this).attr("value"));
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetProduct", "Products")',
+
+                traditional: true,
+                data: { cat: id, min:minPrice, max:maxPrice ,brand_id: brands},
+
+                success: function (result) {
+                    $(".preload").fadeIn(1000, function() {
+                        $("#urunler").html(result).fadeIn(750);
+                    });
+                                     
+                    if (brands == 0) 
+                    {
+                        if (minPrice==null && maxPrice==null) 
+                        {
+                            history.pushState("", " ", '?' + 'cat=' + id);   
+                        }
+                        else 
+                        {
+                            history.pushState("", " ", '?' + 'cat=' + id + '&' + 'min=' + minPrice + '&' + 'max=' + maxPrice);
+    
+                        }
+                        
+                    }
+                    else 
+                    {
+                        if (minPrice==null && maxPrice==null) 
+                        {
+                            history.pushState("", "", '?' + 'cat=' + id + '&' + 'brand=' + brands);  
+                        }
+                        else 
+                        {
+                            history.pushState("", "", '?' + 'cat=' + id + '&' + 'brand=' + brands + '&' + 'min=' + minPrice + '&' + 'max=' + maxPrice);      
+                        }
+                        
+                    }
+                },
+                error: function () {
+                    alert('Error.');
+                }
+            }).done(function () {
+                $("#thisButton").show();
+                $(".preload").fadeOut(750);
+            });
+        };
+   
+   
+        //----------------------------------------------------------------------------------------------------------------------
+        function deleteProduct(value) {
+            var dbrand = $('[name="deletebrand"]:image').val();
+
+            id = $('[name="rbn"]:radio:checked').val();
+            brands = [];
+            brands_name = [];
+
+            $('.theSecond:checkbox:checked').each(function () {
+                brands.push($(this).attr("value"));
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("getProduct", "Products")',
+
+                traditional: true,
+                data: { cat: id, brand_id: brands, delete_brand: value },
+
+                success: function (result) {
+                    $("#urunler").html(result);
+
+                    if (brands == 0) {
+                        history.pushState("", "", '?' + 'cat=' + id);
+                    }
+                    else {
+                        history.pushState("", "", '?' + 'cat=' + id + 'brand=' + brands);
+                    }
+                },
+                error: function () {
+                    alert('Error.');
+                }
+            }).done(function () {
+                $("#thisButton").show();
+            });
+
+        };
+        
+        window.onpopstate = function (event) {
+            if (window.location.href.indexOf("?") > -1) {
+                window.location.href = event.path[0].location.href;
+            }
+        };
+
+        //-------------------------------------------------------------------
+        $(function () {
+            $("#slider-range").slider({
+           
+                range: true,
+                min: 75,
+                max: 450,
+                values: [100,350],
+            });
+            $("#amount").val("$" + $("#slider-range").slider("values", 0) + " " +
+                   " - $" + " " + $("#slider-range").slider("values", 1));
+        });
+
+        $(function() {           
+            $("#slider-range").slider({
+                slide: function (event, ui) {
+                    $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+                    $("#amount").val("$" + $("#slider-range").slider("values", 0) + " " +
+                    " - $" + " " + $("#slider-range").slider("values", 1));
+                },
+
+                change: function (event, ui) {
+                    $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+                    $("#amount").val("$" + $("#slider-range").slider("values", 0) + " " +
+                    " - $" + " " + $("#slider-range").slider("values", 1));
+                    minPrice= $("#slider-range").slider("values", 0);
+                    maxPrice = $("#slider-range").slider("values", 1);
+                    getProduct();
+                }})});
+
+
+</script>
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="breadcrumbs-main">
+            <ol class="breadcrumb">
+                <li><a href="/Home/Index">Home</a></li>
+                <li class="active">Category Products</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="prdt">
+    
+         <div class="container">
+            
+            <div class="prdt-top">
+                                 
+                <div class="col-md-9 prdt-left">                                        
+                        <div class="preload">
+                <img src="~/Content/images/loading.gif" />
+                     </div>                                                       
+                    <div id="urunler">                                                                                                         
+                <div class="product-one">     
+                                                
+                        @foreach (var item in Model)
+                        {
+                           
+                            <div class="col-md-4 product-left p-left">
+                                <div class="product-main simpleCart_shelfItem">
+
+                                    <a href="/Products/Detail/@item.product_id" class="mask">
+                                        <img class="img-responsive zoom-img" src="/Content/images/@item.product_photo" alt="" /></a>
+                                    <div class="product-bottom">
+                                       
+                                         @if (@item.product_name.Length>16)
+                                        {
+                                            <h3>@item.product_name.Substring(0,15)...</h3>
+                                        }
+                                        else
+                                        {
+                                             <h3>@item.product_name</h3>   
+                                        }
+                                        <p>Find Out</p>
+                                        @{
+                            decimal price2 = Convert.ToDecimal(@item.product_price);
+                            int discount2 = Convert.ToInt16(@item.product_discount);
+                            decimal product_discount2 = (@price2 * discount2) / 100;
+                            product_discount2 = price2 - product_discount2;
+                                        }
+                                        
+                                        @if (@item.product_discount == 0)
+                                        {                                         
+                                     <h4 > <a class="item_add" href="#"><i></i></a>  <span class="">@item.product_price $</span></h4> 
+                                    <h4>
+                                        <br />
+                                    </h4>
+                                        }
+                                        else
+                                        {
+                                            <h4  class="cizgi"><span class="">@item.product_price $</span></h4>
+                                                 <h4><a class="item_add" href="#"><i></i></a><span class=" item_price">@product_discount2 $</span></h4>
+                                        }
+                                       
+                                    </div>
+
+                                    @if (@item.product_discount == 0)
+                                    {
+
+                                    }
+                                    else
+                                    {      
+                                        <div class="srch">
+                                            <span>- @item.product_discount %</span>
+                                        </div>     
+                                    }
+                                </div>
+                                <br />
+                            </div>
+                        }
+
+                    </div> 
+                
+                        
+                </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 prdt-right">
+
+                <div class="w_sidebar">
+                    @foreach (var item in ViewBag.category)
+                   {
+                    <section class="sky-form">
+                        <h4>Categories</h4>
+
+                        <div class="row1 scroll-pane">
+                            
+                                @{int cat = Convert.ToInt16(Request.QueryString["cat"]); }                             
+                                <div class="col col-4">
+                                    @if (item.category_id == cat)
+                                    { 
+                                        <label class="checkbox">
+                                            <input type="radio" name="rbn" onclick="getProduct()"  checked="checked=@item.category_id==cat" value="@item.category_id"><i></i>@item.category_name</label>
+                                    }
+                                    else
+                                    {
+                                        <label class="checkbox">
+                                            <input type="radio"  name="rbn" onclick="getProduct()"  value="@item.category_id" ><i></i>@item.category_name</label>    
+                                    }
+                                </div>
+                            
+
+                        </div>
+                    </section>
+                    <section class="sky-form">
+                        <h4>Brands</h4>
+                        <div class="row1 row2 scroll-pane">
+                            @foreach (var item2 in item.Brands)
+                            {
+                                int brand = Convert.ToInt16(Request.QueryString["brand"]);
+                                                                                                  
+                                <div class="col col-4">
+                                    @if (item2.brand_id == brand)
+                                    {
+                                        <label class="checkbox">
+                                            <input type="checkbox"  class="theSecond" name="@item2.brand_name" onclick="getProduct()" checked="checked=@item2.brand_id==@brand" value="@item2.brand_id" ><i></i>@item2.brand_name</label> 
+                                    }
+                                    else if (item2.category_id == cat)
+                                    {
+                                        <label class="checkbox">
+                                            <input type="checkbox"  class="theSecond" name="@item2.brand_name"  onclick="getProduct()"  value="@item2.brand_id" ><i></i>@item2.brand_name</label>      
+                                    }
+
+                                </div>
+                            }
+                            
+                        </div>
+                    </section>
+                    <section class="sky-form">
+                        <h4>Price</h4>
+                        <div class="row1 row2 scroll-pane">
+                            <div class="col col-4">
+                                <p>
+                                    <label for="amount">Price range:</label>
+                                    <input type="text" id="amount" style="border: medium; color: black; font-weight: bold;">
+                                </p>
+
+                                <div id="slider-range"></div>
+
+                            </div>
+                        </div>
+                    </section>
+                    <br />
+                    }
+                </div>
+                    
+
+            </div>
+
+            <div class="clearfix"></div>
+    </div>
+</div>

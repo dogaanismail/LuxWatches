@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="luxwatch_databaseModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="luxwatch_databaseEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="Brands" EntityType="luxwatch_databaseModel.Brands" />
+    <EntitySet Name="Categories" EntityType="luxwatch_databaseModel.Categories" />
+    <EntitySet Name="Photos" EntityType="luxwatch_databaseModel.Photos" />
+    <EntitySet Name="Product" EntityType="luxwatch_databaseModel.Product" />
+    <AssociationSet Name="FK_Brands_ToTable" Association="luxwatch_databaseModel.FK_Brands_ToTable">
+      <End Role="Categories" EntitySet="Categories" />
+      <End Role="Brands" EntitySet="Brands" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_ToTable_1" Association="luxwatch_databaseModel.FK_Product_ToTable_1">
+      <End Role="Brands" EntitySet="Brands" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_ToTable" Association="luxwatch_databaseModel.FK_Product_ToTable">
+      <End Role="Categories" EntitySet="Categories" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Brands">
+    <Key>
+      <PropertyRef Name="brand_id" />
+    </Key>
+    <Property Name="brand_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="brand_name" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="category_id" Type="Int32" />
+    <NavigationProperty Name="Categories" Relationship="luxwatch_databaseModel.FK_Brands_ToTable" FromRole="Brands" ToRole="Categories" />
+    <NavigationProperty Name="Product" Relationship="luxwatch_databaseModel.FK_Product_ToTable_1" FromRole="Brands" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Categories">
+    <Key>
+      <PropertyRef Name="category_id" />
+    </Key>
+    <Property Name="category_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="category_name" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Brands" Relationship="luxwatch_databaseModel.FK_Brands_ToTable" FromRole="Categories" ToRole="Brands" />
+    <NavigationProperty Name="Product" Relationship="luxwatch_databaseModel.FK_Product_ToTable" FromRole="Categories" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Photos">
+    <Key>
+      <PropertyRef Name="photo_id" />
+    </Key>
+    <Property Name="photo_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="photo_url" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="product_id" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="product_id" />
+    </Key>
+    <Property Name="product_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="product_name" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="product_price" Type="Decimal" Precision="15" Scale="2" />
+    <Property Name="product_describe" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="product_photo" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="product_datetime" Type="DateTime" Precision="3" />
+    <Property Name="product_discount" Type="Int32" />
+    <Property Name="category_id" Type="Int32" />
+    <Property Name="brand_id" Type="Int32" />
+    <NavigationProperty Name="Brands" Relationship="luxwatch_databaseModel.FK_Product_ToTable_1" FromRole="Product" ToRole="Brands" />
+    <NavigationProperty Name="Categories" Relationship="luxwatch_databaseModel.FK_Product_ToTable" FromRole="Product" ToRole="Categories" />
+  </EntityType>
+  <Association Name="FK_Brands_ToTable">
+    <End Role="Categories" Type="luxwatch_databaseModel.Categories" Multiplicity="0..1" />
+    <End Role="Brands" Type="luxwatch_databaseModel.Brands" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categories">
+        <PropertyRef Name="category_id" />
+      </Principal>
+      <Dependent Role="Brands">
+        <PropertyRef Name="category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_ToTable_1">
+    <End Role="Brands" Type="luxwatch_databaseModel.Brands" Multiplicity="0..1" />
+    <End Role="Product" Type="luxwatch_databaseModel.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Brands">
+        <PropertyRef Name="brand_id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="brand_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_ToTable">
+    <End Role="Categories" Type="luxwatch_databaseModel.Categories" Multiplicity="0..1" />
+    <End Role="Product" Type="luxwatch_databaseModel.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categories">
+        <PropertyRef Name="category_id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

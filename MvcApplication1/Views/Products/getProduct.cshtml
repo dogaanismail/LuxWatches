@@ -1,0 +1,120 @@
+﻿@using MvcApplication1.Entities
+@model List<Product>
+@{
+}
+
+<style type="text/css">
+     .cizgi {
+           text-decoration:line-through;
+      }
+
+    .tdstyle {     
+        
+    }
+    .tablestyle {
+         background-color:whitesmoke;
+         margin-top:-80px;
+         margin-bottom:12px;                   
+            }
+   
+</style>
+ @{
+    
+    List<int> brand_id2 = ((List<int>)Session["brand_id"]);
+    int cat = Convert.ToInt16(Session["cat"]);  
+                                                               
+ }
+
+@*@if (brand_id2 !=null && brand_id2.Count !=0 )
+{
+    
+    <table class="tablestyle">
+        <tr style="border-collapse:collapse">
+            <td>
+                <h5>Brands</h5>
+            </td>
+        </tr>
+        <tr style="border-collapse:collapse">
+    @for(int i=0; i <brand_id2.Count; i++)
+    {                                         
+                <td class="tdstyle" >
+                    @{
+        int temp = brand_id2[i];
+        string brand_name = (from a in db.Brands
+                             where (a.brand_id == temp)
+                             select a.brand_name).FirstOrDefault();
+                             <h6>@brand_name.ToString()</h6>  
+                    }                              
+                </td> 
+        <td class="tdstyle">
+            <input type="image" src="~/Content/images/close2.png" name="deletebrand"  value="@brand_id2[i]" onclick="deleteProduct(this.value)" />         
+        </td>                                                                  
+    }                     
+            </tr> 
+      </table> 
+} *@
+        
+                              
+                                 
+                <div class="product-one">                                                                      
+                        @foreach (var item in Model)
+                        {
+                           
+                            <div class="col-md-4 product-left p-left">
+                                <div class="product-main simpleCart_shelfItem">
+
+                                    <a href="/Products/Detail/@item.product_id" class="mask">
+                                        <img class="img-responsive zoom-img" src="/Content/images/@item.product_photo" alt="" /></a>
+                                    <div class="product-bottom">
+                                       
+                                         @if (@item.product_name.Length>16)
+                                        {
+                                            <h3>@item.product_name.Substring(0,15)...</h3>
+                                        }
+                                        else
+                                        {
+                                             <h3>@item.product_name</h3>   
+                                        }
+                                        <p>Find Out</p>
+                                        @{
+                            decimal price2 = Convert.ToDecimal(@item.product_price);
+                            int discount2 = Convert.ToInt16(@item.product_discount);
+                            decimal product_discount2 = (@price2 * discount2) / 100;
+                            product_discount2 = price2 - product_discount2;
+                                        }
+                                        
+                                        @if (@item.product_discount == 0)
+                                        {                                         
+                                     <h4 > <a class="item_add" href="#"><i></i></a>  <span class="">@item.product_price $</span></h4> 
+                                    <h4>
+                                        <br />
+                                    </h4>
+                                        }
+                                        else
+                                        {
+                                            <h4  class="cizgi"><span class="">@item.product_price $</span></h4>
+                                                 <h4><a class="item_add" href="#"><i></i></a><span class=" item_price">@product_discount2 $</span></h4>
+                                        }
+                                       
+                                    </div>
+
+                                    @if (@item.product_discount == 0)
+                                    {
+
+                                    }
+                                    else
+                                    {      
+                                        <div class="srch">
+                                            <span>- @item.product_discount %</span>
+                                        </div>     
+                                    }
+                                </div>
+                                <br />
+                            </div>
+                        }
+
+                    </div>
+                
+                    <div class="clearfix"></div>
+                                 
+      

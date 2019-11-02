@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+     .cizgi {
+           text-decoration:line-through;
+             }    
+</style>
+<div class="breadcrumbs">
+		<div class="container">
+			<div class="breadcrumbs-main">
+				<ol class="breadcrumb">
+					<li><a href="/Home/Index">Home</a></li>
+					<li class="active">Search</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+
+<div class="product"> 
+		<div class="container">
+			<div class="product-top">
+                      	
+                     @foreach (var product in ViewBag.product)
+                         {
+                             
+					<div class="col-md-3 product-left">
+                        
+						<div class="product-main simpleCart_shelfItem">
+							<a href="/Products/Detail/@product.product_id" class="mask"><img class="img-responsive zoom-img" src="/Content/images/@product.product_photo" alt="" /></a>
+							<div class="product-bottom">
+								
+                                 @if (@product.product_name.Length>16)
+                                        {
+                                            <h3>@product.product_name.Substring(0,15)...</h3>
+                                        }
+                                        else
+                                        {
+                                             <h3>@product.product_name</h3>   
+                                        }
+								<p>Find Out</p>
+                                @{
+                             decimal price = Convert.ToDecimal(@product.product_price);
+                                int discount = Convert.ToInt16(@product.product_discount);
+                               decimal product_discount = (@price * discount) / 100;
+                                product_discount = price - product_discount;
+                                }
+								
+                                @if (product.product_discount==0)
+                                {
+                                     <h4 > <a class="item_add" href="#"><i></i></a>  <span class="">@product.product_price $</span></h4> 
+                                    <h4>
+                                        <br />
+                                    </h4>
+                                }
+                                else
+                                {
+                                    <h4 class="cizgi"> <span class="">@product.product_price $</span></h4>
+                                     <h4><a class="item_add" href="#"><i></i></a> <span class=" item_price">@product_discount $</span></h4>   
+                                }
+                                                                    
+							</div>
+                            @if (@product.product_discount == 0)
+                            {
+
+                            }
+                            else
+                            {
+                               <div class="srch">
+								<span>- @product.product_discount %</span>
+							</div>     
+                            }
+							
+						</div>
+                         
+					</div>
+                         }
+					<div class="clearfix"></div>
+                			
+			</div>
+		</div>
+	</div>
